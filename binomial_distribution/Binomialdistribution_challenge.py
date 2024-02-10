@@ -15,7 +15,7 @@ class Binomial(Distribution):
                 
     """
     def __init__(self, prob=0.5, size=20):
-        Distribution.__init__(self, mu, stdev)
+        Distribution.__init__(self, self.calculate_mean(), self.calculate_stdev())
         self.p=prob
         self.n=size
   
@@ -60,15 +60,13 @@ class Binomial(Distribution):
                 float: the n value
     
             """
-            self.n=len(self.read_data_file)
-            count=0
-            for i in self.read_data_file:
-                 if i ==1:
-                      count +=1
-            self.p=count/self.n
+            self.n = len(self.data)
+            self.p = 1.0 * sum(self.data) / len(self.data)
 
-            self.calculate_mean=self.p * self.n
-            self.calculate_stdev=math.sqrt(self.n * self.p * (1 - self.p))
+            self.mean=self.calculate_mean()
+            self.stdev=self.calculate_stdev()
+
+            return self.n, self.p
                  
 
     # TODO: write a method plot_bar() that outputs a bar chart of the data set according to the following specifications.
@@ -82,13 +80,14 @@ class Binomial(Distribution):
         Returns:
             None
         """
-        plt.hist(self.data)
-        plt.title('Histogram of Data')
-        plt.xlabel('data')
+        height=[(1 - self.p) * self.n, self.p * self.n]
+        plt.bar(x = ['0', '1'], height = height)
+        plt.title('Bar Chart')
+        plt.xlabel('outcome')
         plt.ylabel('count')
     
     #TODO: Calculate the probability density function of the binomial distribution
-    def pdf():
+    def pdf(self, k):  
         """Probability density function calculator for the binomial distribution.
         
         Args:
@@ -98,10 +97,10 @@ class Binomial(Distribution):
         Returns:
             float: probability density function output
         """
-
+        return math.comb(self.n, self.k) * self.p**(self.k) * (1-self.p)**(self.n-self.k)
 
     # write a method to plot the probability density function of the binomial distribution
-    def pdf(self, k):
+    def plot_bar_pdf(self):
         """Function to plot the pdf of the binomial distribution
         
         Args:
@@ -112,9 +111,23 @@ class Binomial(Distribution):
             list: y values for the pdf plot
             
         """
-        return math.comb(self.n, self.k) * self.p**(self.k) * (1-self.p)**(self.n-self.k)
-    
-    def plot_bar_pdf(self):
+        x = []
+        y = []
+        
+        # calculate the x values to visualize
+        for i in range(self.n + 1):
+            x.append(i)
+            y.append(self.pdf(i))
+
+        # make the plots
+        plt.bar(x, y)
+        plt.title('Distribution of Outcomes')
+        plt.ylabel('Probability')
+        plt.xlabel('Outcome')
+
+        plt.show()
+
+        return x, y
 
         # TODO: Use a bar chart to plot the probability density function from
         # k = 0 to k = n
@@ -129,7 +142,7 @@ class Binomial(Distribution):
                 
     # write a method to output the sum of two binomial distributions. Assume both distributions have the same p value.
     
-     def __add__(self, other):
+    def __add__(self, other):
         """Function to add together two Binomial distributions with equal p
         
         Args:
@@ -138,12 +151,19 @@ class Binomial(Distribution):
         Returns:
             Binomial: Binomial distribution
             
-        """
-        
+        """       
         try:
             assert self.p == other.p, 'p values are not equal'
         except AssertionError as error:
             raise
+
+        result = Binomial()
+        result.n = self.n + other.n
+        result.p = self.p
+        result.calculate_mean()
+        result.calculate_stdev()
+        
+        return result
         
         # TODO: Define addition for two binomial distributions. Assume that the
         # p values of the two distributions are the same. The formula for 
@@ -173,4 +193,4 @@ class Binomial(Distribution):
         #       with the values replaced by whatever the actual distributions values are
         #       The method should return a string in the expected format
     
-        pass
+        return "mean {}, standard deviation {}, p {}, n {}".format(self.mean, self.stdev, self.p, self.n)
