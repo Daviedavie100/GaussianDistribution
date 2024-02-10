@@ -115,7 +115,7 @@ class Binomial(Distribution):
         return math.comb(self.n, self.k) * self.p**(self.k) * (1-self.p)**(self.n-self.k)
     
     def plot_bar_pdf(self):
-        
+
         # TODO: Use a bar chart to plot the probability density function from
         # k = 0 to k = n
         
@@ -129,7 +129,7 @@ class Binomial(Distribution):
                 
     # write a method to output the sum of two binomial distributions. Assume both distributions have the same p value.
     
-    def plot_bar_pdf(self):
+     def __add__(self, other):
         """Function to add together two Binomial distributions with equal p
         
         Args:
@@ -156,7 +156,7 @@ class Binomial(Distribution):
         #   The new n value is the sum of the n values of the two distributions.
                         
     # use the __repr__ magic method to output the characteristics of the binomial distribution object.
-    
+    def __repr__(self):
         """Function to output the characteristics of the Binomial instance
         
         Args:
