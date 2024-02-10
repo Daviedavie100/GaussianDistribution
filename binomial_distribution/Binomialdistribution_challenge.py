@@ -1,7 +1,7 @@
 # DONE: import necessary libraries
 import math
 import matplotlib.pyplot as plt
-from .Generaldistribution import Distribution
+from Generaldistribution import Distribution
 # DONE: make a Binomial class that inherits from the Distribution class. Use the specifications below.
 class Binomial(Distribution):
     """ Binomial distribution class for calculating and 
@@ -15,7 +15,7 @@ class Binomial(Distribution):
                 
     """
     def __init__(self, prob=0.5, size=20):
-        distributions.__init__(self, mu, stdev)
+        Distribution.__init__(self, mu, stdev)
         self.p=prob
         self.n=size
   
@@ -86,19 +86,28 @@ class Binomial(Distribution):
     #
     #       Hint: You can use the calculate_mean() and calculate_stdev() methods
     #           defined previously.
-    def replace_stats_with_data():
+    def replace_stats_with_data(self):
+            """Function to calculate p and n from the data set. The function updates the p and n variables of the object.
         
-        """Function to calculate p and n from the data set. The function updates the p and n variables of the object.
+            Args: 
+                None
         
-        Args: 
-            None
-        
-        Returns: 
-            float: the p value
-            float: the n value
+            Returns: 
+                float: the p value
+                float: the n value
     
-        """
-    
+            """
+            self.n=len(self.read_data_file)
+            count=0
+            for i in self.read_data_file:
+                 if i ==1:
+                      count +=1
+            self.p=count/self.n
+
+            self.calculate_mean=self.p * self.n
+            self.calculate_stdev=math.sqrt(self.n * self.p * (1 - self.p))
+                 
+
     # TODO: write a method plot_bar() that outputs a bar chart of the data set according to the following specifications.
         """Function to output a histogram of the instance variable data using 
         matplotlib pyplot library.
