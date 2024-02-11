@@ -15,9 +15,11 @@ class Binomial(Distribution):
                 
     """
     def __init__(self, prob=0.5, size=20):
-        Distribution.__init__(self, self.calculate_mean(), self.calculate_stdev())
+        
         self.p=prob
         self.n=size
+
+        Distribution.__init__(self, self.calculate_mean(), self.calculate_stdev())
   
     # TODO: write a method calculate_mean() according to the specifications below
     def calculate_mean(self):   
@@ -66,7 +68,7 @@ class Binomial(Distribution):
             self.mean=self.calculate_mean()
             self.stdev=self.calculate_stdev()
 
-            return self.n, self.p
+            return self.p, self.n
                  
 
     # TODO: write a method plot_bar() that outputs a bar chart of the data set according to the following specifications.
@@ -97,7 +99,7 @@ class Binomial(Distribution):
         Returns:
             float: probability density function output
         """
-        return math.comb(self.n, self.k) * self.p**(self.k) * (1-self.p)**(self.n-self.k)
+        return ((math.factorial(self.n))/((math.factorial(self.n-k)) * (math.factorial(k)))) * (self.p**(k)) * ((1-self.p)**(self.n-k))
 
     # write a method to plot the probability density function of the binomial distribution
     def plot_bar_pdf(self):
