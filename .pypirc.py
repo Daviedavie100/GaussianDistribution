@@ -1,4 +1,0 @@
-#.pypirc
-[testpypi]
-  username = __token__
-  password = pypi-AgENdGVzdC5weXBpLm9yZwIkZDE3MjVjN2MtYjRiZC00ZTJjLWE4NGYtNDYzM2IyMmE2NjQxAAIqWzMsImZiMGYyNWU1LWVhNjAtNDc0Zi1hZDg5LWRjZTE1MjI1MDUyOSJdAAAGIBa-errY8R5LbdYv0hlvqvILduu-bfm7HPd92HCkvDfN
